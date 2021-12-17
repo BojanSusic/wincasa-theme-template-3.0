@@ -21,35 +21,33 @@ function removeData()
 
 }
 add_action('cache_page', 'cachePage');
+add_action('acf/save_post', 'cachePage');
 function cachePage(){
-	if(file_exists('cached-wohnungen.html')){
-		unlink('cached-wohnungen.html');
-	}
-	$curl = curl_init();
-
-	curl_setopt_array($curl, array(
-	  CURLOPT_URL => get_site_url().'/wohnungen/',
-	  CURLOPT_RETURNTRANSFER => true,
-	  CURLOPT_ENCODING => '',
-	  CURLOPT_MAXREDIRS => 10,
-	  CURLOPT_TIMEOUT => 0,
-	  CURLOPT_FOLLOWLOCATION => true,
-	  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-	  CURLOPT_CUSTOMREQUEST => 'GET',
-	  CURLOPT_POSTFIELDS =>'{
+    if(file_exists($_SERVER['DOCUMENT_ROOT'].'/cached-wohnungen.html')){
+        unlink($_SERVER['DOCUMENT_ROOT'].'/cached-wohnungen.html');
+    }
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => get_site_url().'/wohnungen/',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_POSTFIELDS =>'{
 		"device": "desktop"
 	}',
-	  CURLOPT_HTTPHEADER => array(
-		'Authorization: Bearer bb6d5a81b31fd1b5daa22a345f9c11f07280a29e',
-		'Content-Type: application/json'
-	  ),
-	));
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer bb6d5a81b31fd1b5daa22a345f9c11f07280a29e',
+            'Content-Type: application/json'
+        ),
+    ));
+    $response = curl_exec($curl);
+    curl_close($curl);
+    do_action( 'litespeed_purge_all' );
 
-	$response = curl_exec($curl);
-
-	curl_close($curl);
-   do_action( 'litespeed_purge_all' );
-	
 }
 add_action('add_links','addLinks');
 function addLinks()
@@ -510,7 +508,7 @@ function generate_wohnungen_free_table()
     <?php
     if ($empty) {
         ?>
-        <div class="no-free-flats mt-5 white-text pl-0"> Zur Zeit sind alle Wohnungen vermietet. Aktivieren Sie den <a
+        <div id="freieWohnungenTable" class="no-free-flats mt-5 white-text pl-0"> Zur Zeit sind alle Wohnungen vermietet. Aktivieren Sie den <a
                     href="#wincasa-alarm">Wincasa Alarm</a> - so benachrichtigen wir Sie umgehend, sobald in dieser
             Liegenschaft eine Wohnung verfügbar wird.
         </div>
@@ -542,7 +540,6 @@ function generate_wohnungen_all_table()
 									</div>
 									<div class="card-heading"><?php echo $street['name'] ?></div>
 								</div>
-                                <div class="fas collapse-icon-plus"></div>
                             </button>
                         </h2>
                     </div>
@@ -1123,6 +1120,7 @@ function get_mobile_cards_park()
     }
 if (count($privateFlatArray) > 0){ ?>
     <h4 class="mt-5  red-text text-center">Freie Parkplätze im Überblick</h4>
+<?php if (count($privateFlatArray) > 0){ ?>
     <div class="swiper-container mb-5 cards swiper-container-initialized swiper-container-horizontal"
          id="freieWohnungenSwiper">
         <div class="swiper-wrapper">
@@ -1210,9 +1208,10 @@ if (count($privateFlatArray) > 0){ ?>
                 </div>
                 <?php
 
-            }
-            if (count($privateFlatArray) > 0){ ?>
+            }?>
         </div>
+			
+            
         <div class="swiper-pagination"></div>
     </div>
     <script src="<?php bloginfo('template_directory'); ?>/js/swiper.min.js" defer></script>
@@ -1333,10 +1332,15 @@ if (count($privateFlatArray) > 0){ ?>
 							</tbody>
 						</table>
 					</div>
+           
                 </div>
+                <!-- Add Pagination -->
+                
                 <?php
 
-            }
+            }?> 
+			
+<?php
             if (count($privateFlatArray) > 0){ ?>
 <?php } else {
     ?>
@@ -1694,7 +1698,7 @@ if (function_exists('add_image_size')) {
     add_image_size('thumb', 690, 690, false);
     add_image_size('gallery', 1080, 1080, false);
     add_image_size('gallery-thumb', 526, 444, true); //(cropped)
-    add_image_size('cover', 1920, 1000, true); //(cropped)
+    add_image_size('cover', 1352, 540, true); //(cropped)
     add_image_size('cover-mob', 600, 300, true); //(cropped)
     add_image_size('banner', 1920, 440, true); //(cropped)
     add_image_size('banner-mob', 600, 440, true); //(cropped)
