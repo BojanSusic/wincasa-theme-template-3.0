@@ -26,20 +26,19 @@ ob_start();
 	
 	<div class="gray-background">
 		<div class="container">
-		<h2 class=" red-text text-center wohnungen-heading mb-5">Freie Wohnungen im Überblick</h2>
-      <?php echo do_shortcode("[get_wohnungen_free_table]"); ?>
-		    <div class="swiper-container  cards swiper-container-initialized swiper-container-horizontal"
-         id="freieWohnungenSwiper">
-        <div class="swiper-wrapper">
-			<?php echo do_shortcode("[get_mobile_cards_wohnungen]"); ?>
-			        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-    </div>
+			<h2 class=" red-text text-center wohnungen-heading mb-5">Freie Wohnungen im Überblick</h2>
+      		<?php echo do_shortcode("[get_wohnungen_free_table]"); ?>
+		    <div class="swiper-container  cards swiper-container-initialized swiper-container-horizontal" id="freieWohnungenSwiper">
+        		<div class="swiper-wrapper">
+					<?php echo do_shortcode("[get_mobile_cards_wohnungen]"); ?>
+			    </div>
+        	<!-- Add Pagination -->
+        		<div class="swiper-pagination"></div>
+    		</div>
 
-    </div>
-</div>
+    	</div>
 	</div>
+</div>
 <!-- all FLATS -->
 <div class="all-flats gray-background gray-block">
 
