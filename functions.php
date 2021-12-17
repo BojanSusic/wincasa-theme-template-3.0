@@ -1333,7 +1333,7 @@ if (count($privateFlatArray) > 0){ ?>
 							</tbody>
 						</table>
 					</div>
-           
+                    </div>
                 </div>
                 <?php
 
