@@ -333,7 +333,7 @@ table {
     font-style: normal;
     font-weight: bold;
     font-size: 64px;
-    line-height: 24px;
+    line-height: 1.2;
     color: var(--header-title-color);
 }
 
